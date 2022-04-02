@@ -1,4 +1,4 @@
-import checkCardNumber from './Validator';
+import checkCardNumber from './validator.js';
 
 const name = document.getElementById('name');
 const out = document.getElementById('out');
