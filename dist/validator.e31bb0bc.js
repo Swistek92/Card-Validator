@@ -156,9 +156,6 @@ var validateCardNumber = function validateCardNumber(input) {
     }
   }
 
-  console.log(sum % 10 !== 0);
-  console.log('sum total', sum);
-
   if (sum % 10 !== 0) {
     throw new Error('Invalid Card Number');
   }
