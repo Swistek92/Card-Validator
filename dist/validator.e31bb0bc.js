@@ -123,7 +123,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CheckCardNumber = void 0;
+exports.default = void 0;
 
 var recognizeMasterCard = function recognizeMasterCard(input) {
   return input.length === 16 && input.startsWith('51') || input.startsWith('52') || input.startsWith('53') || input.startsWith('54') || input.startsWith('55') ? true : false;
@@ -179,11 +179,14 @@ var CheckCardNumber = function CheckCardNumber(nr) {
   }
 };
 
-exports.CheckCardNumber = CheckCardNumber;
+var _default = CheckCardNumber;
+exports.default = _default;
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
 
-var _CheckCardNumber = require("./Check-Card-Number");
+var _CheckCardNumber = _interopRequireDefault(require("./Check-Card-Number"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var name = document.getElementById('name');
 var out = document.getElementById('out');
@@ -192,7 +195,7 @@ form.addEventListener('submit', function (e) {
   e.preventDefault();
 
   try {
-    out.innerHTML = (0, _CheckCardNumber.CheckCardNumber)(name.value);
+    out.innerHTML = (0, _CheckCardNumber.default)(name.value);
     out.classList.add('alert-primary', 'alert');
     out.classList.remove('alert-danger');
   } catch (error) {
@@ -235,7 +238,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57563" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58208" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

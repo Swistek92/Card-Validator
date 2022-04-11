@@ -1,4 +1,4 @@
-import { CheckCardNumber } from './Check-Card-Number';
+import CheckCardNumber from './Check-Card-Number';
 
 const name = document.getElementById('name');
 const out = document.getElementById('out');
