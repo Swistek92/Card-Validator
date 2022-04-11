@@ -117,78 +117,100 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"Validator.js":[function(require,module,exports) {
+})({"Check-Card-Number.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.CheckCardNumber = void 0;
 
-var checkCardNumber = function checkCardNumber(nr) {
-  var input = nr.toString();
+var recognizeMasterCard = function recognizeMasterCard(input) {
+  return input.length === 16 && input.startsWith('51') || input.startsWith('52') || input.startsWith('53') || input.startsWith('54') || input.startsWith('55') ? true : false;
+};
+
+var recognizeVisa = function recognizeVisa(input) {
+  return (input.length === 13 || input.length === 16) && input.startsWith('4') ? true : false;
+};
+
+var recognizeAmericanExpress = function recognizeAmericanExpress(input) {
+  return input.length === 15 && input.startsWith('34') || input.startsWith('37') ? true : false;
+};
+
+var validateCardNumber = function validateCardNumber(input) {
   var sum = 0;
 
   for (var i = input.length - 1; i >= 0; i--) {
     if (i % 2 === 0) {
-      if (input[i] * 2 > 9) {
-        sum += (input[i] * 2).toString().split('').map(Number).reduce(function (a, b) {
-          return a + b;
-        }, 0);
+      var multiplyInput = input[i] * 2;
+
+      if (multiplyInput > 9) {
+        Array.from(String(multiplyInput), Number).forEach(function (e) {
+          sum += e;
+        });
       } else {
-        sum += Number(input[i] * 2);
+        sum += multiplyInput;
       }
     } else {
       sum += Number(input[i]);
     }
   }
 
-  if (sum % 10 !== 0) {
-    return new Error('invalid card number');
-  }
+  console.log(sum % 10 !== 0);
+  console.log('sum total', sum);
 
-  if (input.length === 16 && input.startsWith('51') || input.startsWith('52') || input.startsWith('53') || input.startsWith('54') || input.startsWith('55')) {
-    return 'valid MasterCard';
-  } else if (input.length === 13 || input.length === 16 && input.startsWith('4')) {
-    return 'valid Visa';
-  } else if (input.length === 15 && input.startsWith('34') || input.startsWith('37')) {
-    return ' valid Amercian Express';
-  } else {
-    return new Error('invalid card number');
+  if (sum % 10 !== 0) {
+    throw new Error('Invalid Card Number');
   }
 };
 
-var _default = checkCardNumber;
-exports.default = _default;
+var CheckCardNumber = function CheckCardNumber(nr) {
+  try {
+    validateCardNumber(nr);
+  } catch (error) {
+    throw Error(error.message);
+  }
+
+  if (recognizeMasterCard(nr)) {
+    return 'valid MasterCard';
+  } else if (recognizeVisa(nr)) {
+    return 'valid Visa';
+  } else if (recognizeAmericanExpress(nr)) {
+    return ' valid Amercian Express';
+  } else {
+    throw new Error('Invalid Card Number');
+  }
+};
+
+exports.CheckCardNumber = CheckCardNumber;
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
 
-var _Validator = _interopRequireDefault(require("./Validator"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _CheckCardNumber = require("./Check-Card-Number");
 
 var name = document.getElementById('name');
 var out = document.getElementById('out');
 var form = document.getElementById('form');
 form.addEventListener('submit', function (e) {
   e.preventDefault();
-  out.innerHTML = (0, _Validator.default)(name.value);
+
+  try {
+    out.innerHTML = (0, _CheckCardNumber.CheckCardNumber)(name.value);
+    out.classList.add('alert-primary', 'alert');
+    out.classList.remove('alert-danger');
+  } catch (error) {
+    out.innerHTML = error.message;
+    out.classList.add('alert-danger', 'alert');
+    out.classList.remove('alert-primary');
+  }
 
   if (out.value === '') {
     out.style.display = 'none';
   } else {
     out.style.display = 'block';
   }
-
-  if (out.textContent.startsWith('Err')) {
-    out.classList.add('alert-danger', 'alert');
-    out.classList.remove('alert-primary');
-  } else {
-    out.classList.add('alert-primary', 'alert');
-    out.classList.remove('alert-danger');
-  }
 });
-},{"./Validator":"Validator.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./Check-Card-Number":"Check-Card-Number.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -216,7 +238,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52335" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59526" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -392,5 +414,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/validator.e31bb0bc.js.map
