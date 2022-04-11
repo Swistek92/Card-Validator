@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { CheckCardNumber } from './Check-Card-Number';
+=======
+import checkCardNumber from './validator.js';
+>>>>>>> cb4ffade3a6a8e114c8b18fdfe4b36b1014c4a0c
 
 const name = document.getElementById('name');
 const out = document.getElementById('out');
