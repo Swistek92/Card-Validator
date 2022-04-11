@@ -56,4 +56,4 @@ const CheckCardNumber = (nr) => {
     throw new Error('Invalid Card Number');
   }
 };
-export default CheckCardNumber;
+export { CheckCardNumber };
