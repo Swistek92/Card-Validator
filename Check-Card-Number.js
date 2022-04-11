@@ -39,7 +39,7 @@ const validateCardNumber = (input) => {
   }
 };
 
-export const CheckCardNumber = (nr) => {
+const CheckCardNumber = (nr) => {
   try {
     validateCardNumber(nr);
   } catch (error) {
@@ -56,3 +56,4 @@ export const CheckCardNumber = (nr) => {
     throw new Error('Invalid Card Number');
   }
 };
+export { CheckCardNumber };
